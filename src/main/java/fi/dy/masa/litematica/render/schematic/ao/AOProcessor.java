@@ -1,5 +1,7 @@
 package fi.dy.masa.litematica.render.schematic.ao;
 
+
+//#if MC>=12100
 import com.mojang.blaze3d.vertex.QuadInstance;
 import net.minecraft.client.renderer.block.BlockAndTintGetter;
 import net.minecraft.client.resources.model.geometry.BakedQuad;
@@ -53,3 +55,4 @@ public abstract class AOProcessor
         return override != null ? lighting.byFace(override) : lighting.byFace(face);
     }
 }
+//#endif

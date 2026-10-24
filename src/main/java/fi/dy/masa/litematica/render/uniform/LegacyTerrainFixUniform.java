@@ -1,5 +1,7 @@
 package fi.dy.masa.litematica.render.uniform;
 
+
+//#if MC>=260100
 import java.nio.ByteBuffer;
 import javax.annotation.Nonnull;
 import org.lwjgl.system.MemoryStack;
@@ -101,3 +103,4 @@ public class LegacyTerrainFixUniform implements AutoCloseable
 		this.ubo.close();
 	}
 }
+//#endif

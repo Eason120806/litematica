@@ -1,5 +1,6 @@
 package fi.dy.masa.litematica.mixin.render;
 
+//#if MC>=260200
 import com.llamalad7.mixinextras.sugar.Local;
 import org.jspecify.annotations.Nullable;
 
@@ -107,3 +108,4 @@ public abstract class MixinLevelExtractor
 		}
 	}
 }
+//#endif

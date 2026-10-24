@@ -1,5 +1,6 @@
 package fi.dy.masa.litematica.mixin.model;
 
+//#if MC>=260200
 import net.minecraft.client.renderer.block.BlockModelResolver;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import org.spongepowered.asm.mixin.Mixin;
@@ -11,3 +12,4 @@ public interface IMixinEntityRenderDispatcher
 	@Accessor("blockModelResolver")
 	BlockModelResolver litematica_getBlockModelResolver();
 }
+//#endif

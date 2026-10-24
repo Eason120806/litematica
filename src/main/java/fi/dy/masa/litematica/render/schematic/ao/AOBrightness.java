@@ -1,5 +1,7 @@
 package fi.dy.masa.litematica.render.schematic.ao;
 
+
+//#if MC>=12111
 import it.unimi.dsi.fastutil.longs.Long2FloatLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.longs.Long2IntLinkedOpenHashMap;
 
@@ -115,3 +117,4 @@ public class AOBrightness
 		return val;
 	}
 }
+//#endif

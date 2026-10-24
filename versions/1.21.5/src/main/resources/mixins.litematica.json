@@ -1,0 +1,51 @@
+{
+    "required": true,
+    "package": "fi.dy.masa.litematica.mixin",
+    "compatibilityLevel": "JAVA_21",
+    "minVersion": "0.8",
+    "mixins": [
+        "client.IMixinProfilerSystem",
+        "block.IMixinAbstractBlock",
+        "block.IMixinFenceGateBlock",
+        "block.IMixinRedstoneWireBlock",
+        "block.IMixinStairsBlock",
+        "block.IMixinVineBlock",
+        "block.IMixinWallMountedBlock",
+        "block.MixinBlock",
+        "block.MixinBlockStateFlattening",
+        "block.MixinChestBlock",
+        "block.MixinRailBlocks",
+        "block.MixinStairsBlock",
+        "entity.IMixinEntity",
+        "entity.IMixinSignBlockEntity",
+        "entity.MixinEntity",
+        "easyplace.MixinBlockItem_easyPlace",
+        "network.IMixinChunkDeltaUpdateS2CPacket",
+        "easyplace.MixinServerPlayNetworkHandler_easyPlace",
+        "server.MixinMinecraftServer",
+        "world.IMixinWorld",
+        "world.IMixinWorldTickScheduler",
+        "world.MixinWorld",
+        "world.MixinWorldChunk"
+    ],
+    "client": [
+        "client.MixinMinecraftClient",
+        "easyplace.MixinMinecraftClient_easyPlace",
+        "block.MixinBlockStateManagers",
+        "entity.MixinAbstractSignEditScreen",
+        "hud.MixinDebugHud",
+        "input.IMixinKeyBinding",
+        "network.MixinClientCommonNetworkHandler",
+        "easyplace.MixinClientPlayerInteractionManager_easyPlace",
+        "network.MixinClientPlayNetworkHandler",
+        "render.MixinBufferBuilder",
+        "render.MixinWorldRenderer",
+        "screen.IMixinHandledScreen",
+        "screen.MixinHandledScreen",
+        "world.MixinClientWorld"
+    ],
+    "server": [],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}

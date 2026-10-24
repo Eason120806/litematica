@@ -1,5 +1,7 @@
 package fi.dy.masa.litematica.compat.iris;
 
+
+//#if MC>=260100
 import net.irisshaders.iris.api.v0.IrisApi;
 import net.irisshaders.iris.api.v0.IrisProgram;
 
@@ -71,3 +73,4 @@ public class IrisCompat
 		}
 	}
 }
+//#endif

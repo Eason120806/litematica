@@ -1,5 +1,6 @@
 package fi.dy.masa.litematica.mixin.render;
 
+//#if MC>=260300
 import org.jetbrains.annotations.ApiStatus;
 
 import com.mojang.renderpearl.api.pipeline.BindGroupLayout;
@@ -22,3 +23,4 @@ public class MixinBindGroupLayouts
 		LitematicaPipelines.LEGACY_TERRAIN_GROUP = BindGroupLayout.builder().withUniform("LegacyTerrainFix", UniformType.UNIFORM_BUFFER).build();
 	}
 }
+//#endif

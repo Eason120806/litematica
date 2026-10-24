@@ -1,5 +1,7 @@
 package fi.dy.masa.litematica.render;
 
+
+//#if MC>=12111
 import java.util.List;
 import org.joml.Matrix4fc;
 import org.jspecify.annotations.Nullable;
@@ -167,3 +169,4 @@ public interface IWorldSchematicRenderer
 		int packedLight(BlockAndTintGetter world, BlockPos pos);
 	}
 }
+//#endif

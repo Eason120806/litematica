@@ -1,9 +1,47 @@
+// 多版本装配：支持的 Minecraft 版本只在下面的 VERSIONS 列表里维护一处。
+// 每个版本一个子项目 :<version>，projectDir = versions/<version>，构建脚本统一复用根 common.gradle。
 pluginManagement {
 	repositories {
+		mavenLocal()
 		maven {
 			name = 'Fabric'
 			url = 'https://maven.fabricmc.net/'
 		}
+		maven {
+			name = 'Jitpack'
+			url = 'https://jitpack.io'
+		}
+		mavenCentral()
 		gradlePluginPortal()
 	}
+	resolutionStrategy {
+		eachPlugin {
+			switch (requested.id.id) {
+				case "com.replaymod.preprocess": {
+					// 使用支持「整数版本码条件语法」(//#if MC>=260100) 的 fork。
+					// 换回上游 ReplayMod/preprocessor 需同时改写全部条件注释。
+					useModule("com.github.liuyuexiaoyu1:preprocessor:${requested.version}")
+					break
+				}
+			}
+		}
+	}
 }
+
+// 旧 → 新。新增版本 = 这里加一行 + 建 versions/<ver>/gradle.properties。
+// 其中只有 1.21.11 ~ 26.3 进入 preprocess 图（见 build.gradle），
+// 1.20.1 ~ 1.21.10 以独立源集构建（standalone_source=true）。
+def VERSIONS = [
+		'1.20.1', '1.20.2', '1.20.4', '1.20.6',
+		'1.21', '1.21.3', '1.21.4', '1.21.5', '1.21.8', '1.21.10',
+		'1.21.11', '26.1', '26.2', '26.3',
+]
+
+VERSIONS.each { String version ->
+	include(":$version")
+	def sub = project(":$version")
+	sub.projectDir = file("versions/$version")
+	sub.buildFileName = '../../common.gradle'
+}
+
+rootProject.name = 'litematica'

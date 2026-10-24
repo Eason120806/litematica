@@ -1,5 +1,6 @@
 package fi.dy.masa.litematica.mixin.model;
 
+//#if MC>=260100
 import java.util.Map;
 
 import net.minecraft.client.renderer.block.FluidModel;
@@ -17,3 +18,4 @@ public interface IMixinFluidStateModelSet
 	@Accessor("missingModel")
 	FluidModel litematica_getMissingModel();
 }
+//#endif

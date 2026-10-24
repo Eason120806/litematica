@@ -1,5 +1,6 @@
 package fi.dy.masa.litematica.mixin.screen;
 
+//#if MC>=260100
 import net.minecraft.client.gui.screens.options.VideoSettingsScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -21,3 +22,4 @@ public abstract class MixinVideoSettingsScreen
 		}
 	}
 }
+//#endif

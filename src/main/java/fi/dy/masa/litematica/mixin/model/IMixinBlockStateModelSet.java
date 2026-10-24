@@ -1,5 +1,6 @@
 package fi.dy.masa.litematica.mixin.model;
 
+//#if MC>=260100
 import java.util.Map;
 
 import net.minecraft.client.renderer.block.BlockStateModelSet;
@@ -17,3 +18,4 @@ public interface IMixinBlockStateModelSet
 	@Accessor("missingModel")
 	BlockStateModel litematica_getMissingModel();
 }
+//#endif

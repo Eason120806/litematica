@@ -1,5 +1,6 @@
 package fi.dy.masa.litematica.mixin.model;
 
+//#if MC>=260100
 import java.util.Map;
 
 import net.minecraft.client.color.block.BlockColors;
@@ -22,3 +23,4 @@ public interface IMixinBlockModelSet
 	@Accessor("blockColors")
 	BlockColors litematica_getBlockColors();
 }
+//#endif

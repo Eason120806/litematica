@@ -1,5 +1,6 @@
 package fi.dy.masa.litematica.mixin.model;
 
+//#if MC>=260100
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.renderer.PlayerSkinRenderCache;
 import net.minecraft.client.resources.model.ModelManager;
@@ -19,3 +20,4 @@ public interface IMixinModelManager
 	@Accessor("blockColors")
 	BlockColors litematica_getBlockColors();
 }
+//#endif

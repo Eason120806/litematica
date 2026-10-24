@@ -33,12 +33,10 @@
         "mixins.litematica.json"
     ],
     "accessWidener": "litematica.accesswidener",
+    "breaks": { "malilib": "${malilib_breaks}" },
 
     "depends": {
-        "minecraft": ">=26.3 <26.4",
-        "malilib": ">=0.30.2- <0.31.0-"
-    },
-    "breaks": {
-        "malilib": "<0.30.2-"
+        "minecraft": "${minecraft_dependency}",
+        "malilib": "${malilib_dependency}"
     }
 }

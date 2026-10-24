@@ -1,5 +1,6 @@
 package fi.dy.masa.litematica.mixin.render;
 
+//#if MC>=260100
 import com.llamalad7.mixinextras.sugar.Local;
 import org.joml.Matrix4fc;
 import org.joml.Vector4f;
@@ -164,3 +165,4 @@ public abstract class MixinLevelRenderer
 		return this.multiDrawIndirectAvailable && this.levelRenderState.shouldUseMultiDrawIndirectForTerrain;
 	}
 }
+//#endif

@@ -1,5 +1,6 @@
 package fi.dy.masa.litematica.render.schematic.ao;
 
+//#if MC>=260100
 import net.minecraft.core.Direction;
 
 public enum AOSizeLegacy
@@ -24,3 +25,4 @@ public enum AOSizeLegacy
 		this.shape = face.get3DDataValue() + (flip ? Direction.values().length : 0);
 	}
 }
+//#endif

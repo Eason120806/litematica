@@ -1,12 +1,23 @@
-.gradle
-.settings
-bin/
+# Gradle
+.gradle/
+# 所有构建产物统一在根 build/ 下（build/<version>/libs/），不再有 versions/*/build
 build/
-eclipse/
-logs/
+!gradle/wrapper/gradle-wrapper.jar
+
+# 运行时目录
+run/
+
+# 发布用本地 maven
+CommonMaven/
+
+# 内部文档与脚本（本地使用，不入库）
+docs/
+tools/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.settings/
 .classpath
 .project
-build.number
-.idea/
-run/
-libs/

@@ -1,5 +1,6 @@
 package fi.dy.masa.litematica.render;
 
+//#if MC>=260100
 import org.jetbrains.annotations.ApiStatus;
 
 import com.mojang.renderpearl.api.pipeline.BindGroupLayout;
@@ -27,3 +28,4 @@ public class LitematicaPipelines
 	public static RenderPipeline LEGACY_TRANSLUCENT;
 	public static RenderPipeline LEGACY_TRANSLUCENT_OFFSET;
 }
+//#endif

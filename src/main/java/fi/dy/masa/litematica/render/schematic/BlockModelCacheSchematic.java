@@ -1,5 +1,6 @@
 package fi.dy.masa.litematica.render.schematic;
 
+//#if MC>=260100
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -349,3 +350,4 @@ public class BlockModelCacheSchematic
 		return ((IMixinFluidStateModelSet) this.fluidStateModelSet).litematica_getMissingModel();
 	}
 }
+//#endif

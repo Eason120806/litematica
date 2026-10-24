@@ -1,5 +1,7 @@
 package fi.dy.masa.litematica.render.schematic;
 
+
+//#if MC>=12110
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +52,8 @@ public class SchematicRenderState
 		{
 			this.legacyTerrainFix.close();
 		}
-		catch (Exception _) {}
+		catch (Exception ignored) {}
 		this.legacyTerrainFix = new LegacyTerrainFixUniform();
 	}
 }
+//#endif

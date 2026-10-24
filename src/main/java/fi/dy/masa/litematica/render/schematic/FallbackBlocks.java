@@ -1,5 +1,6 @@
 package fi.dy.masa.litematica.render.schematic;
 
+//#if MC>=260100
 import java.util.HashMap;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
@@ -103,3 +104,4 @@ public class FallbackBlocks
 		Litematica.debugLog("FallbackBlockModels: initialized.");
 	}
 }
+//#endif

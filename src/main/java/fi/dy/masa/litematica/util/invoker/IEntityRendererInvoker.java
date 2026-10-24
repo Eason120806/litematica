@@ -1,5 +1,6 @@
 package fi.dy.masa.litematica.util.invoker;
 
+//#if MC>=260200
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
@@ -15,3 +16,4 @@ public interface IEntityRendererInvoker
 	<E extends Entity> EntityRenderState litematica_getRenderStateNullSafe(E entity, float tickProgress);
 	<E extends Entity> boolean litematica_shouldRender(E entity, final Frustum culler, double camX, final double camY, final double camZ);
 }
+//#endif

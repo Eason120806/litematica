@@ -1,0 +1,286 @@
+// ============================================================================
+// 所有版本子项目共用的构建脚本（projectDir = versions/<version>）
+//
+// 两种构建模式：
+//
+//  A. 预处理图模式（1.21.11 / 26.1 / 26.2 / 26.3）
+//     共用根目录 src/main/java 一份源码，由 preprocessor 派生各版本。
+//     映射统一为 Mojmap（26.x 未混淆，无需 mappings）。
+//
+//  B. 独立源集模式（1.20.1 ~ 1.21.10）
+//     各自使用 versions/<ver>/src/main/java 里的源码 + 各自版本的 Yarn 映射。
+//     开关：versions/<ver>/gradle.properties 里 standalone_source=true + use_yarn=true。
+// ============================================================================
+
+final boolean standalone = project.hasProperty('standalone_source')
+final int mcVersion = standalone ? (project.mc_code as int) : project.mcVersion
+final boolean unobfuscated = mcVersion >= 26_00_00
+
+// ---------------------------------------------------------------------------
+// 构建产物统一落到根目录的 build/<version>/，不再散落在 versions/<version>/build/
+//   ./gradlew :1.21.10:build  ->  build/1.21.10/libs/litematica-fabric-1.21.10-*.jar
+// 必须放在 apply plugin 之前设置，否则 Loom / preprocess 会按默认 buildDir 建任务输出。
+// ---------------------------------------------------------------------------
+layout.buildDirectory.set(rootProject.layout.buildDirectory.dir(project.name))
+
+apply plugin: 'maven-publish'
+apply plugin: unobfuscated ? 'net.fabricmc.fabric-loom' : 'net.fabricmc.fabric-loom-remap'
+if (!standalone) {
+	apply plugin: 'com.replaymod.preprocess'
+}
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+	maven {
+		name = 'Fabric'
+		url = 'https://maven.fabricmc.net/'
+	}
+	// MaLiLib 分散在两个不同仓库，必须都声明：
+	//   https://masa.dy.fi/maven                     → 1.20.1~1.20.4 的旧版本坐标（0.16.x~0.18.x）
+	//   https://masa.dy.fi/maven/sakura-ryoko        → 1.20.6+ 的 sakura 分支坐标
+	// 只留 /sakura-ryoko 会导致 :1.20.1/:1.20.2/:1.20.4 报 "Could not find fi.dy.masa.malilib:..."
+	maven {
+		url = 'https://masa.dy.fi/maven'
+		content { includeGroupAndSubgroups('fi.dy.masa') }
+	}
+	maven {
+		url = 'https://masa.dy.fi/maven/sakura-ryoko'
+		content { includeGroupAndSubgroups('fi.dy.masa') }
+	}
+	maven {
+		url = 'https://maven.fallenbreath.me/releases'
+		content { includeGroupAndSubgroups('me.fallenbreath') }
+	}
+	maven {
+		url = 'https://maven.terraformersmc.com/releases/'
+		content { includeGroupAndSubgroups('com.terraformersmc') }
+	}
+	maven {
+		url = 'https://jitpack.io'
+		content { includeGroupAndSubgroups('com.github') }
+	}
+	maven {
+		url = 'https://api.modrinth.com/maven'
+		content { includeGroup('maven.modrinth') }
+	}
+}
+
+// MC 26.x 官方 jar 未混淆，此时依赖用 implementation/compileOnly；
+// 旧版本需要重映射，用 modImplementation/modCompileOnly。
+// 注意：不能直接写成闭包里调 implementation()，闭包的 owner 是脚本而非 DependencyHandler，
+// 会报 "Could not find method implementation()"，因此这里显式走 project.dependencies。
+final String CFG_IMPL = unobfuscated ? 'implementation' : 'modImplementation'
+final String CFG_COMPILE_ONLY = unobfuscated ? 'compileOnly' : 'modCompileOnly'
+final String CFG_RUNTIME_ONLY = unobfuscated ? 'runtimeOnly' : 'modRuntimeOnly'
+
+def autoImplementation = { Object notation ->
+	project.dependencies.add(CFG_IMPL, notation)
+}
+def autoCompileOnly = { Object notation ->
+	project.dependencies.add(CFG_COMPILE_ONLY, notation)
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+
+	// 映射：
+	//   - 预处理图模式统一 Mojmap（26.x 不需要也不能声明 mappings）
+	//   - 独立源集模式沿用上游的 Yarn（源码本身就是 Yarn 命名，原样编译）
+	if (standalone && project.hasProperty('use_yarn')) {
+		mappings "net.fabricmc:yarn:${project.mappings_version}:v2"
+	} else if (!unobfuscated) {
+		mappings loom.layered { officialMojangMappings() }
+		// 可选：叠加 Parchment 以获得参数名。
+		// 官方 Parchment 未必覆盖每个版本，启用前需逐个版本确认坐标存在：
+		//   parchment("org.parchmentmc.data:parchment-${project.minecraft_version}:${project.parchment_version}@zip")
+	}
+
+	autoImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	implementation "com.google.code.findbugs:jsr305:3.0.2"
+
+	// MaLiLib 坐标全版本一致，仅版本号不同
+	autoImplementation "fi.dy.masa.malilib:malilib-fabric-${project.minecraft_version_out}:${project.malilib_version}"
+
+	// ModMenu 仅 1 个源码文件引用（compat/modmenu/ModMenuImpl）
+	if (project.hasProperty('mod_menu_version')) {
+		autoCompileOnly "com.terraformersmc:modmenu:${project.mod_menu_version}"
+	}
+
+	// conditional-mixin 仅 26.1/26.2/26.3/1.21.11 分支引入
+	if (project.hasProperty('conditionalmixin_version')) {
+		include(autoImplementation("me.fallenbreath:conditional-mixin-fabric:${project.conditionalmixin_version}"))
+	}
+
+	// Iris 兼容仅 26.3 分支有（compat/iris/IrisCompat）
+	if (project.hasProperty('iris_version')) {
+		autoCompileOnly "maven.modrinth:iris:${project.iris_version}+${project.iris_mc_version}-fabric"
+	}
+
+	// MixinExtras：本文件未直接声明，但有 6 个源码文件 import com.llamalad7.*，
+	// 说明是经 MaLiLib 传递进来的。若编译报 com.llamalad7 缺失，启用下面这行：
+	// include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:0.5.5")))
+}
+
+// ---------------------------------------------------------------- Java 版本
+// 由 MC 版本推导，逐版本仍可用 java_version 属性覆盖：
+//   1.20.1 ~ 1.20.4 → 17 ； 1.20.6 ~ 1.21.11 → 21 ； 26.x → 25
+final int javaVersionNumber = project.hasProperty('java_version')
+		? (project.java_version as int)
+		: (unobfuscated ? 25 : (mcVersion <= 1_20_04 ? 17 : 21))
+final JavaVersion JAVA_COMPATIBILITY = JavaVersion.toVersion(javaVersionNumber)
+// Mixin compatibilityLevel 与 javac release 一致
+final String MIXIN_COMPATIBILITY_LEVEL = "JAVA_${javaVersionNumber}"
+
+// --------------------------------------------------------- access widener 路径
+// 各版本的 AW 内容不同（26.x 为 11 行 official 命名空间，1.21.x 为 5 行 named，
+// 1.20.1/1.20.2/1.20.4 根本没有 AW 文件），因此不放共享 src，而是逐版本覆盖。
+def localAw = file('src/main/resources/litematica.accesswidener')
+def sharedAw = rootProject.file('src/main/resources/litematica.accesswidener')
+final boolean hasAw = localAw.exists() || sharedAw.exists()
+
+loom {
+	if (localAw.exists()) {
+		accessWidenerPath = localAw
+	} else if (sharedAw.exists()) {
+		accessWidenerPath = sharedAw
+	}
+
+	runConfigs.configureEach {
+		ideConfigGenerated = true
+		runDir '../../run'
+	}
+}
+
+// ---------------------------------------------- 逐版本覆盖目录（必须显式声明）
+// preprocessor 只把根目录 src/main 挂到子项目上，不会自动纳入 versions/<ver>/src/main。
+// 注意：不加 resources 这行时，versions/26.3/src/main/resources 里的 mixins.litematica.json
+// 与 litematica.accesswidener 不会进 jar（fabric.mod.json 引用了不存在的文件，运行时必崩）。
+// 注意：java 侧**不要**加 srcDir —— 覆盖由 preprocessor 的 "per-version files" 机制处理
+// （把同包同名文件放 versions/<ver>/src/main/java，插件会让共享版本不再参与该版本的派生），
+// 手动 srcDir 会和共享源重复编译。
+sourceSets {
+	main {
+		resources.srcDir(file('src/main/resources'))
+	}
+}
+
+// 独立源集模式：不要共享树，只用本版本自己的源码
+if (standalone) {
+	sourceSets.main.java.setSrcDirs([file('src/main/java')])
+}
+
+// ------------------------------------------------ 逐版本排除（可选）
+// 整文件级别的 //#if 在“package 之后的文件作用域”不可靠（在部分节点下不会被剔除），
+// 因此对“该版本根本不存在此文件”的情况改用源集排除，配合 versions/<ver>/gradle.properties：
+//   exclude_sources=path/a.java,path/b.java     （相对 fi/dy/masa/litematica/ 的路径）
+if (project.hasProperty('exclude_sources')) {
+	def excl = project.exclude_sources.split(',').collect { it.trim() }.findAll { it }
+	sourceSets.main.java.exclude(excl.collect { "fi/dy/masa/litematica/${it}" })
+	println "  [${project.name}] 排除源文件 ${excl.size()} 个"
+}
+
+// ------------------------------------------------------------------ 产物命名
+base {
+	group = project.group + '.' + project.mod_id
+	archivesName = "${project.mod_file_name}-${project.minecraft_version_out}"
+	version = project.mod_version
+	if (version.endsWith('-dev')) {
+		version += '.' + new Date().format('yyyyMMdd.HHmmss')
+	}
+}
+
+// ------------------------------------------------------- 资源模板替换
+// fabric.mod.json 里逐版本不同的字段由 versions/<ver>/gradle.properties 注入。
+// 注意：expand 用 Groovy 模板引擎，模板里出现的每个 ${...} 都必须在 map 里有 key，
+// 否则会报 "Missing property (xxx) for Groovy template expansion"。
+final boolean hasMalilibBreaks = project.hasProperty('malilib_breaks')
+final String malilibBreaks = hasMalilibBreaks ? project.malilib_breaks : ''
+final Map<String, Object> modJsonValues = [
+		mod_version         : project.mod_version,
+		minecraft_dependency: project.minecraft_dependency,
+		malilib_dependency  : project.malilib_dependency,
+		malilib_breaks      : malilibBreaks,
+]
+
+processResources {
+	// 单版本资源（mixins json / accesswidener）会同时出现在：
+	//   1) preprocessor 生成的 build/preprocessed/main/resources
+	//   2) versions/<ver>/src/main/resources（本脚本显式挂上的 srcDir）
+	// 内容完全相同，声明 INCLUDE 让后者覆盖前者，避免 "duplicate but no strategy" 失败。
+	duplicatesStrategy = DuplicatesStrategy.INCLUDE
+
+	exclude '**/*.xcf'
+	exclude '**/xcf'
+
+	inputs.property 'mod_version', project.mod_version
+	inputs.property 'minecraft_dependency', project.minecraft_dependency
+	inputs.property 'malilib_dependency', project.malilib_dependency
+	inputs.property 'malilib_breaks', malilibBreaks
+
+	filesMatching('fabric.mod.json') {
+		// 整行剔除该版本不需要的字段：
+		//   - 1.20.1/1.20.2/1.20.4 上游没有 access widener
+		//   - 只有 26.3 声明了 breaks.malilib
+		// 模板里这两个 key 都排在 depends 之前，剔除后不会产生尾逗号。
+		filter { String line ->
+			if (line.contains('"accessWidener"') && !hasAw) {
+				return null
+			}
+			if (line.contains('"breaks"') && !hasMalilibBreaks) {
+				return null
+			}
+			line
+		}
+		expand modJsonValues
+	}
+}
+
+// ------------------------------------------------------------------ 编译设置
+tasks.withType(JavaCompile).configureEach {
+	options.encoding = 'UTF-8'
+	options.release = javaVersionNumber
+	options.compilerArgs << '-Xlint:-processing'
+}
+
+tasks.withType(AbstractArchiveTask).configureEach {
+	preserveFileTimestamps = true
+	// 与 processResources 同理：单版本资源可能同时来自预处理产物和 versions/<ver>/src
+	duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+// ------------------------------------------------------------ 运行（runClient）
+// Gradle 自身必须跑在 JDK 25（Loom 1.18.2 的要求），但**游戏进程**不能：
+//   MC 1.20.1 自带 Mixin 0.8.5，读不了 Java 25 的 class 文件（Unsupported class file major version），
+//   会在 Bootstrap 阶段就崩。因此给 JavaExec 单独指定工具链。
+//   逐版本可用 run_java_version 覆盖（1.20.x 目标 17，但本机只有 21/25，故用 21）。
+final int runJava = project.hasProperty('run_java_version') ? (project.run_java_version as int) : javaVersionNumber
+tasks.withType(JavaExec).configureEach {
+	if (runJava != 25) {
+		javaLauncher.set(javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(runJava) })
+	}
+}
+
+java {
+	sourceCompatibility = JAVA_COMPATIBILITY
+	targetCompatibility = JAVA_COMPATIBILITY
+}
+
+jar {
+	from(rootProject.file('LICENSE.txt')) {
+		rename { "${it}_${base.archivesName.get()}" }
+	}
+}
+
+tasks.publish.dependsOn build
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			artifactId = base.archivesName.get()
+			from components.java
+		}
+	}
+	repositories {
+		maven { url = "$rootDir/CommonMaven" }
+	}
+}

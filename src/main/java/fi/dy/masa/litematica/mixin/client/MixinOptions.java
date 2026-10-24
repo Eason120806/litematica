@@ -1,5 +1,6 @@
 package fi.dy.masa.litematica.mixin.client;
 
+//#if MC>=260100
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
 import org.spongepowered.asm.mixin.Mixin;
@@ -26,3 +27,4 @@ public abstract class MixinOptions
 		}
 	}
 }
+//#endif

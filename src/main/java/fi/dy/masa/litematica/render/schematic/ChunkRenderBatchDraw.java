@@ -1,5 +1,7 @@
 package fi.dy.masa.litematica.render.schematic;
 
+
+//#if MC>=12108
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -110,3 +112,4 @@ public record ChunkRenderBatchDraw(
         profiler.pop();
     }
 }
+//#endif

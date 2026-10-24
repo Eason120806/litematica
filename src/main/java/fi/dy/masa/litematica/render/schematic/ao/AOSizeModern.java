@@ -1,5 +1,6 @@
 package fi.dy.masa.litematica.render.schematic.ao;
 
+//#if MC>=260100
 // SizeInfo
 public enum AOSizeModern
 {
@@ -25,3 +26,4 @@ public enum AOSizeModern
 		this.index = index;
 	}
 }
+//#endif

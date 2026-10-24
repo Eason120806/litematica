@@ -1,5 +1,7 @@
 package fi.dy.masa.litematica.render.schematic;
 
+
+//#if MC>=260100
 import org.jspecify.annotations.NonNull;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -330,3 +332,4 @@ public class FluidModelRendererSchematic extends FluidRenderer
 		builder.addVertex(x, (y + this.offsetY), z, color, u, v, OverlayTexture.NO_OVERLAY, lightCoords, 0.0F, 1.0F, 0.0F);
 	}
 }
+//#endif

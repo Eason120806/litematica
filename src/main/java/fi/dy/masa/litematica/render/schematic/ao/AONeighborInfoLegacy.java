@@ -1,5 +1,6 @@
 package fi.dy.masa.litematica.render.schematic.ao;
 
+//#if MC>=260100
 import net.minecraft.core.Direction;
 import net.minecraft.util.Util;
 
@@ -68,3 +69,4 @@ public enum AONeighborInfoLegacy
 		return VALUES[direction.get3DDataValue()];
 	}
 }
+//#endif

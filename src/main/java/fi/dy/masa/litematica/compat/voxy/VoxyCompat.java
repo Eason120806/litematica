@@ -1,5 +1,6 @@
 package fi.dy.masa.litematica.compat.voxy;
 
+//#if MC>=260300
 import fi.dy.masa.malilib.MaLiLibFabricData;
 import fi.dy.masa.malilib.compat.ModIds;
 import fi.dy.masa.litematica.Litematica;
@@ -31,3 +32,4 @@ public class VoxyCompat
 		Configs.Generic.LOAD_ENTIRE_SCHEMATICS.setBooleanValue(hasVoxy());
 	}
 }
+//#endif

@@ -1,5 +1,6 @@
 package fi.dy.masa.litematica.compat.iris;
 
+//#if MC>=260100
 public class IrisRenderingFix
 {
 	public static final IrisRenderingFix INSTANCE = new IrisRenderingFix();
@@ -155,3 +156,4 @@ public class IrisRenderingFix
 //		}
 //	}
 }
+//#endif

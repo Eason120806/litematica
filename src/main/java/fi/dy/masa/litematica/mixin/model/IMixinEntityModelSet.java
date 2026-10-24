@@ -1,5 +1,6 @@
 package fi.dy.masa.litematica.mixin.model;
 
+//#if MC>=260100
 import java.util.Map;
 
 import net.minecraft.client.model.geom.EntityModelSet;
@@ -14,3 +15,4 @@ public interface IMixinEntityModelSet
 	@Accessor("roots")
 	Map<ModelLayerLocation, LayerDefinition> litematica_getRoots();
 }
+//#endif

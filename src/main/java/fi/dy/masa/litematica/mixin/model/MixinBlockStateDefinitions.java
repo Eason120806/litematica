@@ -1,5 +1,6 @@
 package fi.dy.masa.litematica.mixin.model;
 
+//#if MC>=260100
 import java.util.Map;
 import net.minecraft.client.resources.model.BlockStateDefinitions;
 import net.minecraft.resources.Identifier;
@@ -38,3 +39,4 @@ public class MixinBlockStateDefinitions
 		STATIC_DEFINITIONS = builder.build();
 	}
 }
+//#endif

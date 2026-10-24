@@ -1,5 +1,6 @@
 package fi.dy.masa.litematica.mixin.model;
 
+//#if MC>=260100
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import org.spongepowered.asm.mixin.Mixin;
@@ -11,3 +12,4 @@ public interface IMixinMinecraft
 	@Accessor("itemModelResolver")
 	ItemModelResolver litematica_getItemModelResolver();
 }
+//#endif

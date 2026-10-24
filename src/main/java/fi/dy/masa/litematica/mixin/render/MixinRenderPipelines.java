@@ -1,5 +1,6 @@
 package fi.dy.masa.litematica.mixin.render;
 
+//#if MC>=260300
 import java.util.Map;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -124,3 +125,4 @@ public abstract class MixinRenderPipelines
 		IrisCompat.registerPipelines();
 	}
 }
+//#endif

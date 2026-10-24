@@ -1,5 +1,7 @@
 package fi.dy.masa.litematica.render.schematic;
 
+
+//#if MC>=260100
 import java.util.List;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
@@ -119,3 +121,4 @@ public class BlockTintCache
 		}
 	}
 }
+//#endif
