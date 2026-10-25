@@ -279,6 +279,10 @@ public class InventoryUtils
                 {
                     setPickedItemToHand(stack, mc);
                 }
+                else if (slot == -1 && Configs.Generic.QUICK_SHULKER.getBooleanValue())
+                {
+                    QuickShulkerUtils.requestRestock(mc, stack);
+                }
                 else if (slot == -1 && Configs.Generic.PICK_BLOCK_SHULKERS.getBooleanValue())
                 {
                     slot = findSlotWithBoxWithItem(mc.player.inventoryMenu, stack, false);

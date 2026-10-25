@@ -2,6 +2,8 @@ package fi.dy.masa.litematica.scheduler;
 
 import net.minecraft.client.MinecraftClient;
 
+import fi.dy.masa.litematica.util.QuickShulkerUtils;
+
 import fi.dy.masa.malilib.interfaces.IClientTickHandler;
 import fi.dy.masa.malilib.util.EntityUtils;
 import fi.dy.masa.litematica.config.Configs;
@@ -42,6 +44,7 @@ public class ClientTickHandler implements IClientTickHandler
                 DataManager.getRenderLayerRange().setSingleBoundaryToPosition(EntityUtils.getCameraEntity());
             }
 
+            QuickShulkerUtils.tick();
             DataManager.getSchematicPlacementManager().processQueuedChunks();
             TaskScheduler.getInstanceClient().runTasks();
         }

@@ -108,6 +108,9 @@ public class Configs implements IConfigHandler
         public static final ConfigBoolean       PICK_BLOCK_SHULKERS         = new ConfigBoolean("pickBlockShulkers", false).apply(GENERIC_KEY);
         public static final ConfigString        PICK_BLOCKABLE_SLOTS        = new ConfigString( "pickBlockableSlots", "1,2,3,4,5").apply(GENERIC_KEY);
         public static final ConfigBoolean       PLACEMENT_RESTRICTION       = new ConfigBoolean("placementRestriction", false).apply(GENERIC_KEY);
+        public static final ConfigBoolean       QUICK_SHULKER              = new ConfigBoolean("quickShulker", false).apply(GENERIC_KEY);
+        public static final ConfigInteger       QUICK_SHULKER_COOLDOWN     = new ConfigInteger("quickShulkerCooldown", 1, 0, 20).apply(GENERIC_KEY);
+        public static final ConfigOptionList    QUICK_SHULKER_MODE         = new ConfigOptionList("quickShulkerMode", QuickShulkerMode.INVOKE).apply(GENERIC_KEY);
         public static final ConfigBoolean       RENDER_MATERIALS_IN_GUI     = new ConfigBoolean("renderMaterialListInGuis", true).apply(GENERIC_KEY);
         public static final ConfigBoolean       RENDER_THREAD_NO_TIMEOUT    = new ConfigBoolean("renderThreadNoTimeout", true).apply(GENERIC_KEY);
         public static final ConfigInteger       SERVER_NBT_REQUEST_RATE     = new ConfigInteger("serverNbtRequestRate", 2).apply(GENERIC_KEY);
@@ -177,6 +180,9 @@ public class Configs implements IConfigHandler
                 PICK_BLOCK_SHULKERS,
                 PLACEMENT_REPLACE_BEHAVIOR,
                 PLACEMENT_RESTRICTION,
+                QUICK_SHULKER,
+                QUICK_SHULKER_COOLDOWN,
+                QUICK_SHULKER_MODE,
                 PLACEMENT_RESTRICTION_WARN,
                 RENDER_MATERIALS_IN_GUI,
                 RENDER_THREAD_NO_TIMEOUT,

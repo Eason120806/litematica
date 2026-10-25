@@ -129,6 +129,9 @@ public class Configs implements IConfigHandler
         public static final ConfigBoolean       PLACEMENT_RESTRICTION       = new ConfigBoolean("placementRestriction", false).apply(GENERIC_KEY);
         public static final ConfigInteger       PLACEMENT_MANAGER_THREAD_COUNT= new ConfigInteger("placementManagerThreadCount", 2, PlacementManagerDaemonHandler.MIN_PLATFORM_THREADS,
                                                                                                   MathUtils.max(PlacementManagerDaemonHandler.MAX_PLATFORM_THREADS, PlacementManagerDaemonHandler.MIN_PLATFORM_THREADS)).apply(GENERIC_KEY);
+        public static final ConfigBoolean       QUICK_SHULKER              = new ConfigBoolean("quickShulker", false).apply(GENERIC_KEY);
+        public static final ConfigInteger       QUICK_SHULKER_COOLDOWN     = new ConfigInteger("quickShulkerCooldown", 1, 0, 20).apply(GENERIC_KEY);
+        public static final ConfigOptionList    QUICK_SHULKER_MODE         = new ConfigOptionList("quickShulkerMode", QuickShulkerMode.INVOKE).apply(GENERIC_KEY);
 //        public static final ConfigOptionList    PLACEMENT_MANAGER_PROFILE   = new ConfigOptionList("placementManagerProfile", PlacementManagerThreadProfile.DEFAULT).apply(GENERIC_KEY);
         public static final ConfigBoolean       RENDER_MATERIALS_IN_GUI     = new ConfigBoolean("renderMaterialListInGuis", true).apply(GENERIC_KEY);
         public static final ConfigBoolean       RENDER_THREAD_NO_TIMEOUT    = new ConfigBoolean("renderThreadNoTimeout", true).apply(GENERIC_KEY);
@@ -215,6 +218,9 @@ public class Configs implements IConfigHandler
                 PLACEMENT_REPLACE_BEHAVIOR,
                 PLACEMENT_RESTRICTION,
                 PLACEMENT_RESTRICTION_WARN,
+                QUICK_SHULKER,
+                QUICK_SHULKER_COOLDOWN,
+                QUICK_SHULKER_MODE,
                 REVERSE_OP_MODE_DIRECTION,
                 RENDER_MATERIALS_IN_GUI,
                 RENDER_THREAD_NO_TIMEOUT,

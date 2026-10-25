@@ -7,6 +7,7 @@ import fi.dy.masa.litematica.data.DataManager;
 import fi.dy.masa.litematica.selection.SelectionManager;
 import fi.dy.masa.litematica.util.EasyPlaceUtils;
 import fi.dy.masa.litematica.util.LayerUtils;
+import fi.dy.masa.litematica.util.QuickShulkerUtils;
 import fi.dy.masa.litematica.util.WorldUtils;
 
 public class ClientTickHandler implements IClientTickHandler
@@ -36,6 +37,7 @@ public class ClientTickHandler implements IClientTickHandler
             }
 
             LayerUtils.onClientTick(mc);
+            QuickShulkerUtils.tick();
             DataManager.getSchematicPlacementManager().onClientTick(mc);
             TaskScheduler.getInstanceClient().runTasks();
         }
