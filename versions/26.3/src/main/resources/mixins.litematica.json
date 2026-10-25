@@ -58,7 +58,8 @@
         "render.MixinRenderPipelines",
         "screen.IMixinAbstractContainerScreen",
         "screen.MixinVideoSettingsScreen",
-        "world.MixinClientLevel"
+        "world.MixinClientLevel",
+        "easyplace.MixinServerboundMovePlayerPacket_easyPlaceFacing"
     ],
     "server": [],
     "injectors": {

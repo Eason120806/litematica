@@ -27,7 +27,8 @@
         "world.IMixinLevel",
         "world.IMixinLevelTicks",
         "world.MixinLevel",
-        "world.MixinLevelChunk"
+        "world.MixinLevelChunk",
+        "block.MixinGlazedTerracottaBlock"
     ],
     "client": [
         "client.MixinMinecraft",
@@ -54,7 +55,8 @@
         "render.MixinLevelRenderer",
         "screen.IMixinAbstractContainerScreen",
         "screen.MixinVideoSettingsScreen",
-        "world.MixinClientLevel"
+        "world.MixinClientLevel",
+        "easyplace.MixinServerboundMovePlayerPacket_easyPlaceFacing"
     ],
     "server": [],
     "injectors": {

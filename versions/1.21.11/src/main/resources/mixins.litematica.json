@@ -50,7 +50,8 @@
         "render.MixinGameRenderer",
         "render.MixinWorldRenderer",
         "screen.IMixinAbstractContainerScreen",
-        "world.MixinClientLevel"
+        "world.MixinClientLevel",
+        "easyplace.MixinServerboundMovePlayerPacket_easyPlaceFacing"
     ],
     "server": [],
     "injectors": {

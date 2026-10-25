@@ -53,6 +53,7 @@ public class Configs implements IConfigHandler
         public static final ConfigBoolean       DEBUG_LOGGING               = new ConfigBoolean("debugLogging", false, "Enables some debug log messages in the game console,\nfor debugging certain issues or crashes.");
         public static final ConfigOptionList    DATAFIXER_MODE              = new ConfigOptionList("datafixerMode", DataFixerMode.ALWAYS, "The configurable data fixer level to apply to loaded schematics.\nThis option can improve performance of loading\nschematics by bypassing the Vanilla Data Fixer,\nbut this can also cause severe data loss if it is disabled.");
         public static final ConfigInteger       DATAFIXER_DEFAULT_SCHEMA    = new ConfigInteger("datafixerDefaultSchema", 1139, 99, 2724, true, "Default Schema Value for the Vanilla Data Fixer\n\nUsed to adjust the lowest possible value, and the value used\nwhen the loaded schematic does not contain this information.\n\n§6WARNING:  This setting is meant to be used at the direction\n§6from a Litematica developer such as masa themselves.\n§6When in doubt, keep the default for Minecraft 1.12.");
+        public static final ConfigBoolean       EASY_PLACE_FACING_FIX       = new ConfigBoolean("easyPlaceFacingFix", true, "Simulates the placement facing.");
         public static final ConfigBoolean       EASY_PLACE_FIRST            = new ConfigBoolean("easyPlaceFirst", true, "This causes the Easy Place mode to place the first/closest block\nyou are looking at first, instead of the furthest/bottom-most block.\nSetting this to false allows you to place multiple layers \"at once\",\nsince the furthest blocks would be placed before the closer ones block the line of sight.");
         public static final ConfigBoolean       EASY_PLACE_HOLD_ENABLED     = new ConfigBoolean("easyPlaceHoldEnabled", true, "When enabled, then you can hold down the use key\nand look at different schematic blocks to place them,\nwithout having to click on every block individually.");
         public static final ConfigBoolean       EASY_PLACE_MODE             = new ConfigBoolean("easyPlaceMode", false, "When enabled, then simply trying to use an item/place a block\non schematic blocks will place that block in that position");
@@ -102,6 +103,7 @@ public class Configs implements IConfigHandler
                 DEBUG_LOGGING,
                 DATAFIXER_MODE,
                 DATAFIXER_DEFAULT_SCHEMA,
+                EASY_PLACE_FACING_FIX,
                 EASY_PLACE_FIRST,
                 EASY_PLACE_HOLD_ENABLED,
                 EASY_PLACE_MODE,

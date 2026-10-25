@@ -845,7 +845,7 @@ public class WorldUtils
 
                 //System.out.printf("interact -> pos: %s side: %s, hit: %s\n", pos, side, hitPos);
                 // pos, side, hitPos
-                ActionResult result = mc.interactionManager.interactBlock(mc.player, hand, hitResult);
+                ActionResult result = EasyPlaceFacing.useItemOn(mc, mc.player, hand, hitResult, stateSchematic);
 
                 // swing hand fix, see MinecraftClient#doItemUse
                 if (ActionResult.SUCCESS.swingSource().equals(ActionResult.SwingSource.CLIENT) &&
@@ -862,7 +862,7 @@ public class WorldUtils
                     {
                         side = applyPlacementFacing(stateSchematic, sideOrig, stateClient);
                         hitResult = new BlockHitResult(hitPos, side, pos, false);
-                        mc.interactionManager.interactBlock(mc.player, hand, hitResult);
+                        EasyPlaceFacing.useItemOn(mc, mc.player, hand, hitResult, stateSchematic);
                     }
                 }
             }

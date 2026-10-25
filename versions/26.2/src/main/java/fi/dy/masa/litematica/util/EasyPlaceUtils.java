@@ -623,7 +623,7 @@ public class EasyPlaceUtils
 		BlockHitResult hitResult = new BlockHitResult(hitPos, side, clickPos, false);
 
 		//if (GameWrap.getInteractionManager().processRightClickBlock(player, world, clickPos, side.getVanillaDirection(), hitPos.toVanilla(), hand) == EnumActionResult.SUCCESS)
-		InteractionResult result = mc.gameMode.useItemOn(mc.player, hand, hitResult);
+		InteractionResult result = EasyPlaceFacing.useItemOn(mc, player, hand, hitResult, stateSchematic);
 
 		if (result == InteractionResult.PASS)
 		{
@@ -653,7 +653,7 @@ public class EasyPlaceUtils
 					{
 						side = applyPlacementFacing(stateSchematic, sideOrig, stateClient);
 						hitResult = new BlockHitResult(hitPos, side, clickPos, false);
-						mc.gameMode.useItemOn(mc.player, hand, hitResult);
+						EasyPlaceFacing.useItemOn(mc, player, hand, hitResult, stateSchematic);
 					}
 				}
 			}

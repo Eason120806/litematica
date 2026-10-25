@@ -64,6 +64,7 @@ public class Configs implements IConfigHandler
         public static final ConfigInteger       DATAFIXER_DEFAULT_SCHEMA    = new ConfigInteger("datafixerDefaultSchema", 1139, 99, 2724, true).apply(GENERIC_KEY);
 		public static final ConfigBoolean       DISPLAY_FILE_OPS_FEEDBACK   = new ConfigBoolean("displayFileOpsFeedback", false).apply(GENERIC_KEY);
         public static final ConfigBoolean       EASY_PLACE_CLICK_ADJACENT   = new ConfigBoolean("easyPlaceClickAdjacent", false).apply(GENERIC_KEY);
+        public static final ConfigBoolean       EASY_PLACE_FACING_FIX       = new ConfigBoolean("easyPlaceFacingFix", true).apply(GENERIC_KEY);
         public static final ConfigBoolean       EASY_PLACE_FIRST            = new ConfigBoolean("easyPlaceFirst", true).apply(GENERIC_KEY);
         public static final ConfigBoolean       EASY_PLACE_HOLD_ENABLED     = new ConfigBoolean("easyPlaceHoldEnabled", true).apply(GENERIC_KEY);
         public static final ConfigBoolean       EASY_PLACE_MODE             = new ConfigBoolean("easyPlaceMode", false).apply(GENERIC_KEY);
@@ -135,6 +136,7 @@ public class Configs implements IConfigHandler
                 DATAFIXER_MODE,
                 DATAFIXER_DEFAULT_SCHEMA,
                 EASY_PLACE_CLICK_ADJACENT,
+                EASY_PLACE_FACING_FIX,
                 EASY_PLACE_FIRST,
                 EASY_PLACE_HOLD_ENABLED,
                 EASY_PLACE_MODE,
