@@ -149,6 +149,12 @@ loom {
 	runConfigs.configureEach {
 		ideConfigGenerated = true
 		runDir '../../run'
+
+		// 可选：./gradlew :26.3:runClient -Pquick_play_world="New World"
+		// 直接进入指定存档，跳过主菜单
+		if (project.hasProperty('quick_play_world')) {
+			programArgs '--quickPlaySingleplayer', project.quick_play_world as String
+		}
 	}
 }
 
